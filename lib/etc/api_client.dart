@@ -61,9 +61,13 @@ class ApiClient {
     }
   }
 
-  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     throw UnimplementedError();
   }
 }
+
+/*extension DioErrorX on DioError {
+  bool get isNoConnectionError =>
+      type == DioErrorType.unknown && error is SocketException;   // import 'dart:io' for SocketException
+}*/

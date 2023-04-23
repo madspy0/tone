@@ -66,6 +66,13 @@ class _ContactsScreenState extends State<ContactsScreen>
     super.dispose();
   }
 
+  void errorShow(String errorMsg) => ScaffoldMessenger.of(context).showSnackBar(
+     SnackBar(
+      content: Text(errorMsg),
+      backgroundColor: Colors.red,
+    ),
+  );
+
   @override
   void didPushAfterTransition() => _loadingController!.forward();
   List<Contact> empty() => [];
@@ -73,13 +80,17 @@ class _ContactsScreenState extends State<ContactsScreen>
     try {
       final response = await ApiClient().contacts();
       return response;
-    } on DioError catch (e) {
+    }
+    on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print(errorMessage);
-    } on CustomException catch (e) {
-      print(e.cause);
-    } catch (e) {
+      errorShow(errorMessage);
+    }
+    on CustomException catch (e) {
+      errorShow(e.cause);
+    }
+    catch (e) {
       print(e);
+      errorShow(e.toString());
     }
     return empty();
   }
