@@ -95,6 +95,14 @@ class _ContactsScreenState extends State<ContactsScreen>
     return empty();
   }
 
+  Future<void> subToTopic()  async {
+    try {
+      ApiClient().subToTopic();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   AppBar _buildAppBar(ThemeData theme) {
     final menuBtn = IconButton(
       color: theme.colorScheme.secondary,
@@ -325,7 +333,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+subToTopic();
     return WillPopScope(
       onWillPop: () => _goToLogin(context),
       child: SafeArea(

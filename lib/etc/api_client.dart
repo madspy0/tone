@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tele_one/etc/contact_class.dart';
 import 'package:tele_one/etc/custom_exceptions.dart';
+import 'package:mercure_client/mercure_client.dart';
 
 class ApiClient {
   final Dio _dio = Dio(
@@ -38,6 +39,20 @@ class ApiClient {
     return Response(requestOptions: response.requestOptions);
   }
 
+  void subToTopic() async {
+    final Mercure mercure = Mercure(
+      url:
+          'http://localhost/.well-known/mercure', // your mercure hub url
+      topics: ['https://example.com/my-private-topic'], // your mercure topics
+      token: jwt, // Bearer authorization
+      // lastEventId: 'last_event_id', // in case your stored last recieved event
+    );
+
+    final subscription = mercure.listen((event) {
+      print(event.data);
+    });
+  }
+
   Future<List<Contact>> contacts() async {
     try {
       final response = await _dio.get(
@@ -57,7 +72,7 @@ class ApiClient {
           throw CustomException(response.data['message'].toString());
       }
     } catch (e) {
-     rethrow;
+      rethrow;
     }
   }
 
