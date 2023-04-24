@@ -39,10 +39,10 @@ class ApiClient {
     return Response(requestOptions: response.requestOptions);
   }
 
-  void subToTopic() async {
+  Future<void> subToTopic() async {
     final Mercure mercure = Mercure(
       url:
-          'http://localhost/.well-known/mercure', // your mercure hub url
+          'http://192.168.33.102/.well-known/mercure', // your mercure hub url
       topics: ['https://example.com/my-private-topic'], // your mercure topics
       token: jwt, // Bearer authorization
       // lastEventId: 'last_event_id', // in case your stored last recieved event
