@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:mercure_client/mercure_client.dart';
 import 'package:tele_one/etc/contact_class.dart';
 import 'package:tele_one/etc/custom_exceptions.dart';
-import 'package:mercure_client/mercure_client.dart';
 
 class ApiClient {
+
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: 'http://192.168.33.102:8000',
@@ -39,10 +40,9 @@ class ApiClient {
     return Response(requestOptions: response.requestOptions);
   }
 
-  Future<void> subToTopic() async {
+  Future<void> subscribeToTopic() async {
     final Mercure mercure = Mercure(
-      url:
-          'http://192.168.33.102/.well-known/mercure', // your mercure hub url
+      url: 'http://192.168.33.102/.well-known/mercure', // your mercure hub url
       topics: ['https://example.com/my-private-topic'], // your mercure topics
       token: jwt, // Bearer authorization
       // lastEventId: 'last_event_id', // in case your stored last recieved event
@@ -50,7 +50,8 @@ class ApiClient {
 
     final subscription = mercure.listen((event) {
       print(event.data);
-    });
+    }
+    );
   }
 
   Future<List<Contact>> contacts() async {

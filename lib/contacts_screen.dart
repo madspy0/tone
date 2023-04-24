@@ -97,7 +97,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
   Future<void> subToTopic()  async {
     try {
-      ApiClient().subToTopic();
+      ApiClient().subscribeToTopic();
     } catch (e) {
       print(e);
     }
