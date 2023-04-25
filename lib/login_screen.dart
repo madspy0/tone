@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tele_one/chat_page.dart';
 import 'package:tele_one/constants.dart';
 import 'package:tele_one/custom_route.dart';
 import 'package:tele_one/etc/api_client.dart';
@@ -273,7 +274,7 @@ class LoginScreen extends StatelessWidget {
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(
           FadePageRoute(
-            builder: (context) => const ContactsScreen(),
+            builder: (context) => const ChatPage(),
           ),
         );
       },

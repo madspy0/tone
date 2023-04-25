@@ -333,7 +333,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-subToTopic();
+// subToTopic();
     return WillPopScope(
       onWillPop: () => _goToLogin(context),
       child: SafeArea(

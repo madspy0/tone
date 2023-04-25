@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TeleONE',
+      title: 'tOn',
       theme: ThemeData(
         textSelectionTheme:
             const TextSelectionThemeData(cursorColor: Colors.orange),
