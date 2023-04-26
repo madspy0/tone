@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mercure_client/mercure_client.dart';
-import 'package:tele_one/etc/contact_class.dart';
-import 'package:tele_one/etc/custom_exceptions.dart';
+import 'package:ton/etc/contact_class.dart';
+import 'package:ton/etc/custom_exceptions.dart';
 
 class ApiClient {
+
+  static String _jwt='';
 
   final Dio _dio = Dio(
     BaseOptions(
@@ -16,8 +18,6 @@ class ApiClient {
       contentType: 'application/json',
     ),
   );
-
-  static String jwt = "";
 
   Future<Response> login(String username, String password) async {
     Response? response;
@@ -36,7 +36,7 @@ class ApiClient {
       rethrow;
     }
     // List<dynamic> otv = response.data;
-    jwt = "${response.data['token']}";
+    _jwt = "${response.data['token']}";
     return Response(requestOptions: response.requestOptions);
   }
 
@@ -44,14 +44,13 @@ class ApiClient {
     final Mercure mercure = Mercure(
       url: 'http://192.168.33.102/.well-known/mercure', // your mercure hub url
       topics: ['https://example.com/my-private-topic'], // your mercure topics
-      token: jwt, // Bearer authorization
+      token: _jwt, // Bearer authorization
       // lastEventId: 'last_event_id', // in case your stored last recieved event
     );
 
-    final subscription = mercure.listen((event) {
+    mercure.listen((event) {
       print(event.data);
-    }
-    );
+    });
   }
 
   Future<List<Contact>> contacts() async {
@@ -59,7 +58,7 @@ class ApiClient {
       final response = await _dio.get(
         '/api/users',
         options: Options(
-          headers: {'Authorization': 'Bearer $jwt'},
+          headers: {'Authorization': 'Bearer $_jwt'},
         ),
       );
       switch (response.statusCode) {

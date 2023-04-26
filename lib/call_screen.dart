@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/theme.dart';
 import 'package:flutter_login/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tele_one/constants.dart';
-import 'package:tele_one/transition_route_observer.dart';
-import 'package:tele_one/widgets/fade_in.dart';
+import 'package:ton/constants.dart';
+import 'package:ton/transition_route_observer.dart';
+import 'package:ton/widgets/fade_in.dart';
 
 import 'contacts_screen.dart';
 import 'custom_route.dart';

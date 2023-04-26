@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/theme.dart';
 import 'package:flutter_login/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tele_one/constants.dart';
-import 'package:tele_one/etc/api_client.dart';
-import 'package:tele_one/etc/contact_class.dart';
-import 'package:tele_one/etc/custom_exceptions.dart';
-import 'package:tele_one/transition_route_observer.dart';
-import 'package:tele_one/widgets/animated_numeric_text.dart';
-import 'package:tele_one/widgets/fade_in.dart';
+import 'package:ton/constants.dart';
+import 'package:ton/etc/api_client.dart';
+import 'package:ton/etc/contact_class.dart';
+import 'package:ton/etc/custom_exceptions.dart';
+import 'package:ton/transition_route_observer.dart';
+import 'package:ton/widgets/animated_numeric_text.dart';
+import 'package:ton/widgets/fade_in.dart';
 
 class ContactsScreen extends StatefulWidget {
   static const routeName = '/contacts';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tele_one/call_screen.dart';
-import 'package:tele_one/card_screen.dart';
-import 'package:tele_one/dashboard_screen.dart';
-import 'package:tele_one/login_screen.dart';
-import 'package:tele_one/transition_route_observer.dart';
+import 'package:ton/call_screen.dart';
+import 'package:ton/card_screen.dart';
+import 'package:ton/dashboard_screen.dart';
+import 'package:ton/login_screen.dart';
+import 'package:ton/transition_route_observer.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'tOn',
+    //  debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textSelectionTheme:
             const TextSelectionThemeData(cursorColor: Colors.orange),

@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/theme.dart';
 import 'package:flutter_login/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tele_one/constants.dart';
-import 'package:tele_one/transition_route_observer.dart';
-import 'package:tele_one/widgets/animated_numeric_text.dart';
-import 'package:tele_one/widgets/fade_in.dart';
-import 'package:tele_one/widgets/round_button.dart';
-import 'etc/api_client.dart';
+import 'package:ton/constants.dart';
+import 'package:ton/transition_route_observer.dart';
+import 'package:ton/widgets/animated_numeric_text.dart';
+import 'package:ton/widgets/fade_in.dart';
+import 'package:ton/widgets/round_button.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/dashboard';
@@ -299,7 +298,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-print("in dashboard ${ApiClient.jwt}");
     return WillPopScope(
       onWillPop: () => _goToLogin(context),
       child: SafeArea(
