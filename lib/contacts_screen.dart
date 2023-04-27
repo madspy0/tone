@@ -67,40 +67,30 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   void errorShow(String errorMsg) => ScaffoldMessenger.of(context).showSnackBar(
-     SnackBar(
-      content: Text(errorMsg),
-      backgroundColor: Colors.red,
-    ),
-  );
+        SnackBar(
+          content: Text(errorMsg),
+          backgroundColor: Colors.red,
+        ),
+      );
 
   @override
   void didPushAfterTransition() => _loadingController!.forward();
   List<Contact> empty() => [];
+
   Future<List<Contact>> setContacts() async {
     try {
       final response = await ApiClient().contacts();
       return response;
-    }
-    on DioError catch (e) {
+    } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       errorShow(errorMessage);
-    }
-    on CustomException catch (e) {
+    } on CustomException catch (e) {
       errorShow(e.cause);
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
       errorShow(e.toString());
     }
     return empty();
-  }
-
-  Future<void> subToTopic()  async {
-    try {
-      ApiClient().subscribeToTopic();
-    } catch (e) {
-      print(e);
-    }
   }
 
   AppBar _buildAppBar(ThemeData theme) {
@@ -371,24 +361,25 @@ class _ContactsScreenState extends State<ContactsScreen>
                           ).createShader(bounds);
                         },
                         child: // Text("ok")
-                            FutureBuilder<List<Contact>>(
+                            FutureBuilder(
                           future: setContacts(),
                           builder: (context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
+                            if (snapshot.hasData &&
+                                snapshot.connectionState == ConnectionState.done) {
                               return ListView.builder(
+                                itemCount: ((snapshot.data).length) as int,
                                 itemBuilder: (context, index) {
                                   return ListTile(
-                                    title: Text(snapshot.data[index].title
-                                        .toString()), //("${values[index]}"),
+                                    title: Text(
+                                      snapshot.data[index].title.toString(),
+                                    ), //("${values[index]}"),
                                     onTap: () {
-                                      print(index);
                                       Navigator.of(context)
-                                          .pushReplacementNamed('/call')
-                                          .then((_) => false);
+                                          .pushNamed('/chat', arguments: snapshot.data[index].title.toString());
+                                        //  .then((_) => false);
                                     },
                                   );
                                 },
-                                itemCount: ((snapshot.data).length) as int,
                               );
                             } else {
                               return const Center(

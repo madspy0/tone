@@ -14,7 +14,9 @@ String randomString() {
 }
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  static const routeName = '/chat';
+
+  const ChatPage({Key? key, required String contact}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -25,9 +27,12 @@ class _ChatPageState extends State<ChatPage> {
   final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments;
+    print(args);
+      return Scaffold(
         appBar: AppBar(
-          title: const Text("Це чатик"),
+          title:  Text("Це чатик $args"),
           actions: <Widget>[
             IconButton(
               icon: const Icon(FontAwesomeIcons.rightFromBracket),
@@ -35,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
               onPressed: () {
                 Navigator.of(context)
                     .pushReplacementNamed('/auth')
-                    // we dont want to pop the screen, just replace it completely
+                // we dont want to pop the screen, just replace it completely
                     .then((_) => false);
               },
             )
@@ -52,9 +57,11 @@ class _ChatPageState extends State<ChatPage> {
           elevation: 0.00,
           backgroundColor: Colors.greenAccent[400],
           leading: IconButton(
-            icon: const Icon(Icons.menu),
-            tooltip: 'Меню',
-            onPressed: () {},
+            icon: const Icon(FontAwesomeIcons.leftRight),
+            tooltip: 'Спiсок',
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
         body: Chat(
@@ -64,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
           user: _user,
         ),
       );
-
+}
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
@@ -82,3 +89,4 @@ class _ChatPageState extends State<ChatPage> {
     _addMessage(textMessage);
   }
 }
+

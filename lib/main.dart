@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ton/call_screen.dart';
 import 'package:ton/card_screen.dart';
+import 'package:ton/chat_page.dart';
 import 'package:ton/dashboard_screen.dart';
 import 'package:ton/login_screen.dart';
 import 'package:ton/transition_route_observer.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         DashboardScreen.routeName: (context) => const DashboardScreen(jwt: 'test',),
         CardHomeView.routeName: (context) => const CardHomeView(),
         CallScreen.routeName: (context) => const CallScreen(),
+        ChatPage.routeName: (context) => const ChatPage(contact: 'User')
       },
     );
   }

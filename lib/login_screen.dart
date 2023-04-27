@@ -7,6 +7,7 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ton/chat_page.dart';
 import 'package:ton/constants.dart';
+import 'package:ton/contacts_screen.dart';
 import 'package:ton/custom_route.dart';
 import 'package:ton/etc/api_client.dart';
 import 'package:ton/etc/custom_exceptions.dart';
@@ -274,7 +275,7 @@ class LoginScreen extends StatelessWidget {
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(
           FadePageRoute(
-            builder: (context) => const ChatPage(),
+            builder: (context) => const ContactsScreen(),
           ),
         );
       },
