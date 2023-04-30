@@ -87,7 +87,6 @@ class _ContactsScreenState extends State<ContactsScreen>
     } on CustomException catch (e) {
       errorShow(e.cause);
     } catch (e) {
-      print(e);
       errorShow(e.toString());
     }
     return empty();
@@ -206,120 +205,6 @@ class _ContactsScreenState extends State<ContactsScreen>
     );
   }
 
-/*  Widget _buildButton({
-    Widget? icon,
-    String? label,
-    required Interval interval,
-  }) {
-    return RoundButton(
-      icon: icon,
-      label: label,
-      loadingController: _loadingController,
-      interval: Interval(
-        interval.begin,
-        interval.end,
-        curve: const ElasticOutCurve(0.42),
-      ),
-      onPressed: () {
-        Navigator.of(context)
-            .pushReplacementNamed('/cards')
-        // we dont want to pop the screen, just replace it completely
-            .then((_) => false);
-      },
-    );
-  }
-
-  Widget _buildDashboardGrid() {
-    const step = 0.04;
-    const aniInterval = 0.75;
-
-    return GridView.count(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 32.0,
-        vertical: 20,
-      ),
-      childAspectRatio: .9,
-      // crossAxisSpacing: 5,
-      crossAxisCount: 3,
-      children: [
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.user),
-          label: 'Profile',
-          interval: const Interval(0, aniInterval),
-        ),
-        _buildButton(
-          icon: Container(
-            // fix icon is not centered like others for some reasons
-            padding: const EdgeInsets.only(left: 16.0),
-            alignment: Alignment.centerLeft,
-            child: const Icon(
-              FontAwesomeIcons.moneyBill1,
-              size: 20,
-            ),
-          ),
-          label: 'Fund Transfer',
-          interval: const Interval(step, aniInterval + step),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.handHoldingDollar),
-          label: 'Payment',
-          interval: const Interval(step * 2, aniInterval + step * 2),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.chartLine),
-          label: 'Report',
-          interval: const Interval(0, aniInterval),
-        ),
-        _buildButton(
-          icon: const Icon(Icons.vpn_key),
-          label: 'Register',
-          interval: const Interval(step, aniInterval + step),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.clockRotateLeft),
-          label: 'History',
-          interval: const Interval(step * 2, aniInterval + step * 2),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.ellipsis),
-          label: 'Other',
-          interval: const Interval(0, aniInterval),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.magnifyingGlass, size: 20),
-          label: 'Search',
-          interval: const Interval(step, aniInterval + step),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.sliders, size: 20),
-          label: 'Settings',
-          interval: const Interval(step * 2, aniInterval + step * 2),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDebugButtons() {
-    const textStyle = TextStyle(fontSize: 12, color: Colors.white);
-
-    return Positioned(
-      bottom: 0,
-      right: 0,
-      child: Row(
-        children: <Widget>[
-          MaterialButton(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: Colors.red,
-            onPressed: () => _loadingController!.value == 0
-                ? _loadingController!.forward()
-                : _loadingController!.reverse(),
-            child: const Text('loading', style: textStyle),
-          ),
-        ],
-      ),
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -361,22 +246,27 @@ class _ContactsScreenState extends State<ContactsScreen>
                           ).createShader(bounds);
                         },
                         child: // Text("ok")
-                            FutureBuilder(
+                            FutureBuilder<List<Contact>>(
                           future: setContacts(),
-                          builder: (context, AsyncSnapshot snapshot) {
+                          builder:
+                              (context, AsyncSnapshot<List<Contact>> snapshot) {
                             if (snapshot.hasData &&
-                                snapshot.connectionState == ConnectionState.done) {
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              final usersList = snapshot.data;
                               return ListView.builder(
-                                itemCount: ((snapshot.data).length) as int,
+                                itemCount: usersList?.length,
                                 itemBuilder: (context, index) {
                                   return ListTile(
                                     title: Text(
-                                      snapshot.data[index].title.toString(),
+                                      usersList![index].title,
                                     ), //("${values[index]}"),
                                     onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed('/chat', arguments: snapshot.data[index].title.toString());
-                                        //  .then((_) => false);
+                                      Navigator.of(context).pushNamed(
+                                        '/chat',
+                                        arguments: usersList[index],
+                                      );
+                                      //  .then((_) => false);
                                     },
                                   );
                                 },

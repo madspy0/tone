@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ton/call_screen.dart';
-import 'package:ton/card_screen.dart';
 import 'package:ton/chat_page.dart';
-import 'package:ton/dashboard_screen.dart';
+import 'package:ton/contacts_screen.dart';
+import 'package:ton/custom_route.dart';
+import 'package:ton/etc/contact_class.dart';
 import 'package:ton/login_screen.dart';
 import 'package:ton/transition_route_observer.dart';
+import 'package:ton/widgets/jwt_token.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -64,11 +65,20 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => const LoginScreen(),
-        DashboardScreen.routeName: (context) => const DashboardScreen(jwt: 'test',),
-        CardHomeView.routeName: (context) => const CardHomeView(),
-        CallScreen.routeName: (context) => const CallScreen(),
-        ChatPage.routeName: (context) => const ChatPage(contact: 'User')
+        // DashboardScreen.routeName: (context) => const DashboardScreen(jwt: 'test',),
+        // CardHomeView.routeName: (context) => const CardHomeView(),
+        ContactsScreen.routeName: (context) => const ContactsScreen(),
+        ChatPage.routeName: (context) => const ChatPage(),
       },
+/*      onGenerateRoute: (settings) {
+        if(settings.name == ContactsScreen.routeName) {
+          final args = settings.arguments as Contact;
+          return FadePageRoute(
+            builder: (context) =>  ChatPage(contact: args,),
+          );
+        }
+        return null;
+      },*/
     );
   }
 }

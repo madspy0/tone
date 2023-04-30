@@ -6,6 +6,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:ton/etc/contact_class.dart';
+
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
   final random = Random.secure();
@@ -16,7 +18,7 @@ String randomString() {
 class ChatPage extends StatefulWidget {
   static const routeName = '/chat';
 
-  const ChatPage({Key? key, required String contact}) : super(key: key);
+  const ChatPage({Key? key}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -28,11 +30,10 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    print(args);
+    final args = ModalRoute.of(context)!.settings.arguments as Contact;
       return Scaffold(
         appBar: AppBar(
-          title:  Text("Це чатик $args"),
+          title:  Text("Це чатик ${args.title}"),
           actions: <Widget>[
             IconButton(
               icon: const Icon(FontAwesomeIcons.rightFromBracket),
@@ -55,7 +56,7 @@ class _ChatPageState extends State<ChatPage> {
                 bottomLeft: Radius.circular(25)),
           ),
           elevation: 0.00,
-          backgroundColor: Colors.greenAccent[400],
+          backgroundColor: Colors.blueAccent[400],
           leading: IconButton(
             icon: const Icon(FontAwesomeIcons.leftRight),
             tooltip: 'Спiсок',

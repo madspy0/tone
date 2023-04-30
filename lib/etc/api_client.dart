@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:mercure_client/mercure_client.dart';
 import 'package:ton/etc/contact_class.dart';
 import 'package:ton/etc/custom_exceptions.dart';
+import 'package:ton/widgets/jwt_token.dart';
 
 class ApiClient {
 
-  static String _jwt='';
+  static late JwtToken _jwtToken;
 
   final Dio _dio = Dio(
     BaseOptions(
@@ -36,29 +37,36 @@ class ApiClient {
       rethrow;
     }
     // List<dynamic> otv = response.data;
-    _jwt = "${response.data['token']}";
+
+     _jwtToken = await setJwtToken(response.data['token'] as String) ;
+    print(_jwtToken.payload);
     return Response(requestOptions: response.requestOptions);
   }
 
-  Future<void> subscribeToTopic() async {
+  Future<JwtToken> setJwtToken(String jwt) async {
+    return JwtToken.fromBase64(jwt);
+  }
+
+/*  Future<void> subscribeToTopic() async {
     final Mercure mercure = Mercure(
       url: 'http://192.168.33.102/.well-known/mercure', // your mercure hub url
       topics: ['https://example.com/my-private-topic'], // your mercure topics
-      token: _jwt, // Bearer authorization
+      token: getJwtToken(_jwtToken.jwt).jwt, // Bearer authorization
       // lastEventId: 'last_event_id', // in case your stored last recieved event
     );
 
     mercure.listen((event) {
       print(event.data);
     });
-  }
+  }*/
 
   Future<List<Contact>> contacts() async {
     try {
+      print(_jwtToken.jwt);
       final response = await _dio.get(
         '/api/users',
         options: Options(
-          headers: {'Authorization': 'Bearer $_jwt'},
+          headers: {'Authorization': 'Bearer ${_jwtToken.jwt}'},
         ),
       );
       switch (response.statusCode) {
