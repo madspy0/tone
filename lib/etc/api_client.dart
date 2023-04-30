@@ -20,6 +20,13 @@ class ApiClient {
     ),
   );
 
+  late final Mercure _mercure = Mercure(
+    url: 'http://192.168.33.102/.well-known/mercure', // your mercure hub url
+    topics: ['https://example.com/my-private-topic'], // your mercure topics
+    token: _jwtToken.jwt, // Bearer authorization
+    // lastEventId: 'last_event_id', // in case your stored last recieved event
+  );
+
   Future<Response> login(String username, String password) async {
     Response? response;
     try {
@@ -31,38 +38,31 @@ class ApiClient {
         options: Options(validateStatus: (_) => true),
       );
       if (response.statusCode != 200) {
-        throw CustomException(response.data['message'].toString());
+        throw CustomException(response.data!.message.toString());
       }
     } catch (e) {
       rethrow;
     }
     // List<dynamic> otv = response.data;
 
-     _jwtToken = await setJwtToken(response.data['token'] as String) ;
-    print(_jwtToken.payload);
+     _jwtToken =  JwtToken.fromBase64(response.data!.token.toString()) ;
+      subscribe();
     return Response(requestOptions: response.requestOptions);
   }
 
-  Future<JwtToken> setJwtToken(String jwt) async {
+/*  Future<JwtToken> setJwtToken(String jwt) async {
     return JwtToken.fromBase64(jwt);
-  }
+  }*/
 
-/*  Future<void> subscribeToTopic() async {
-    final Mercure mercure = Mercure(
-      url: 'http://192.168.33.102/.well-known/mercure', // your mercure hub url
-      topics: ['https://example.com/my-private-topic'], // your mercure topics
-      token: getJwtToken(_jwtToken.jwt).jwt, // Bearer authorization
-      // lastEventId: 'last_event_id', // in case your stored last recieved event
-    );
-
-    mercure.listen((event) {
+  Future<void> subscribe() async {
+    _mercure.listen((event) {
       print(event.data);
     });
-  }*/
+
+  }
 
   Future<List<Contact>> contacts() async {
     try {
-      print(_jwtToken.jwt);
       final response = await _dio.get(
         '/api/users',
         options: Options(
@@ -77,7 +77,7 @@ class ApiClient {
               .toList();
         default:
           print(response);
-          throw CustomException(response.data['message'].toString());
+          throw CustomException(response.data!.message.toString());
       }
     } catch (e) {
       rethrow;
